@@ -1,0 +1,7 @@
+-nstruct 3             
+-out:path:pdb ./    
+-out:path:score ./  
+-relax:default_repeats 1           
+-relax:script InterfaceRelax2019    
+-score:weights ref2015             
+

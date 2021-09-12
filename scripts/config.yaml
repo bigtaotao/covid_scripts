@@ -1,0 +1,64 @@
+input:
+  #path to pdb files
+  path: "./data" 
+  #if you want to run batch.py, "step" can let you choose which step you want to start at [ relax | flex_ddg ]
+  step: relax
+#  step: flex_ddg
+  #it is the path which is rosetta suite locate on, it should contain binary files
+  rosetta_bin: "/home/lyt/rosetta/main/source/bin/"
+  #you can define your mutation sites by {Mutation_name:[site,variation]}
+  #you could define how to combine these mutations (P.S. single multi triple and so on)
+  mutation: 
+    n501y:
+      - 501
+      - Y 
+    k417n:
+      - 417
+      - N
+    k417t:
+      - 417
+      - T
+    e484k:
+      - 484
+      - K
+  combine:
+    single: 1
+    multi: 2
+    triple: 3
+relax:
+  #if you want to run score_jd2 firstly, let it be true
+  need_prepare: true
+  #binary file's name of score_jd2
+  score_jd2_exec: "score_jd2.static.linuxgccrelease"
+  #binary file's name of relax
+  relax_exec: "relax.static.linuxgccrelease"
+  #relax's flag file
+  flag: "relax.flag"
+  #number of threads of run relax binary file
+  relax_threads: 3
+  #if you want to run relax by using mpi, set use_mpi = true
+  #mpi_cores is the number of cores occupied by one mpi process
+  mpi_run: 
+    use_mpi: false
+    mpi_cores: 8
+flex_ddg:
+  #binary file's name of rosetta_scripts
+  rosetta_scripts_exec: "rosetta_scripts.static.linuxgccrelease"
+  #the path of flex_ddg files
+  root_path: "./flex_ddg"
+  #the number of cores used to run flex_ddg
+  max_cpus: 24
+  nstruct: 35 # Normally 35
+  max_minimization_iter: 5 # Normally 5000
+  abs_score_convergence_thresh: 10 # Normally 1.0
+  number_backrub_trials: 350 # Normally 35000
+  backrub_trajectory_stride: 35 # Can be whatever you want, if you would like to see results from earlier time points in the backrub trajectory. 7000 is a reasonable number, to give you three checkpoints for a 35000 step run, but you could also set it to 35000 for quickest run time (as the final minimization and packing steps will only need to be run one time).
+  #if you want to run flex_ddg in batches, you could set split to true
+  #each_have is the number owned by each batch
+  split_inputs:
+    split: false
+    each_have: 20
+
+
+
+ 
