@@ -30,6 +30,7 @@ if __name__ == "__main__":
             cmd = os.path.join(os.path.dirname(sys.argv[0]),"jd2.run.sh") + " " +\
                 config["input"]["path"] +" " +\
                 os.path.join(config["input"]["rosetta_bin"],config["relax"]["score_jd2_exec"])
+            print("========= start running score_jd2 =========")
             ex = os.system(cmd)
             if ex:
                 logging.error("run score_jd2 failed !")
@@ -50,14 +51,17 @@ if __name__ == "__main__":
             os.path.join(config["input"]["rosetta_bin"],config["relax"]["relax_exec"]) + " " +\
             jd2_file + " " +\
             config["input"]["path"]
+        print("========= start running relax =========")
         ex = os.system(cmd)
         if ex:
             logging.error("run relax failed !")
             sys.exit(1)
-        relax_file = os.path.abspath(config["input"]["path"]) + "/relax_sc.list"
+        relax_file = os.path.abspath(os.path.join(config["input"]["path"],"relax_sc.list"))
         could_flex = True
     elif config["input"]["step"] == "flex_ddg":
-        relax_file = "None"
+        relax_file = os.path.abspath(os.path.join(config["input"]["path"],"relax_sc.list"))
+        if not os.path.exists(relax_file):
+            relax_file = "None"
         could_flex = True
     else:
         logging.error("'step' not defined correctly !")
@@ -74,7 +78,7 @@ if __name__ == "__main__":
         import shutil
         import yaml
         import re
-
+        print("========= start running make fles_ddG =========")
         relax_res = relax_file
         # relax_res = sys.argv[1]
         meta = pd.read_csv(config["input"]["path"] + "/meta.csv")

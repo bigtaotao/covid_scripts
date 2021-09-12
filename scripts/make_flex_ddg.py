@@ -32,7 +32,9 @@ if __name__ == "__main__":
         import re
 
         # relax_res = relax_file
-        relax_res = sys.argv[1]
+        relax_res = os.path.abspath(os.path.join(config["input"]["path"],"relax_sc.list"))
+        if not os.path.exists(relax_res):
+            relax_res = "None"
         config_path = os.path.join(os.path.dirname(sys.argv[0]),"config.yaml")
         with open(config_path,"r") as f:
             config = yaml.load(f,Loader=yaml.FullLoader)
