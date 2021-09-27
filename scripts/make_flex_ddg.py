@@ -231,7 +231,6 @@ if __name__ == "__main__":
                 content += "number_backrub_trials = " + str(config["flex_ddg"]["number_backrub_trials"]) + "\n"
                 content += "backrub_trajectory_stride = " + str(config["flex_ddg"]["backrub_trajectory_stride"]) + "\n"
                 content += "rosetta_scripts_path = '" + os.path.join(config["input"]["rosetta_bin"],config["flex_ddg"]["rosetta_scripts_exec"]) + "'\n"
-
                 content = content + r'''
 import socket
 import sys
@@ -317,32 +316,30 @@ if __name__ == '__main__':
         sub_path = os.listdir(input_path_root)
         if config["flex_ddg"]["split_inputs"]["split"]:
             each_num = config["flex_ddg"]["split_inputs"]["each_have"]
-
-            for each_sub in sub_path:
-                split_dir_index = 0
-                src_path = os.path.join(input_path_root,each_sub)
-                file_list = os.listdir (src_path)
-                len_file = len(file_list) 
-                index = 0
-                while 1 :
-                    dst_path = os.path.join(output_path,each_sub,str(split_dir_index))
-                    os.makedirs(dst_path,exist_ok=True)
-                    for i in range(each_num):
-                        if index < len_file:
-                            src_file = os.path.join(src_path,file_list[index])
-                            dst_file = os.path.join(dst_path,"inputs",file_list[index])
-                            shutil.copytree(src_file,dst_file)
-                            cp_ddg(dst_path)
-                            index += 1 
-                        else:
-                            break
-                    if index >= len_file:
-                        break
-                    split_dir_index += 1
         else:
-            os.makedirs(output_path,exist_ok= True)
-            shutil.move(input_path_root,os.path.join(output_path,"inputs"))
-            cp_ddg(output_path)
+            each_num = 9999999
+        for each_sub in sub_path:
+            split_dir_index = 0
+            src_path = os.path.join(input_path_root,each_sub)
+            file_list = os.listdir (src_path)
+            len_file = len(file_list) 
+            index = 0
+            while 1 :
+                dst_path = os.path.join(output_path,each_sub,str(split_dir_index))
+                os.makedirs(dst_path,exist_ok=True)
+                for i in range(each_num):
+                    if index < len_file:
+                        src_file = os.path.join(src_path,file_list[index])
+                        dst_file = os.path.join(dst_path,"inputs",file_list[index])
+                        shutil.copytree(src_file,dst_file)
+                        cp_ddg(dst_path)
+                        index += 1 
+                    else:
+                        break
+                if index >= len_file:
+                    break
+                split_dir_index += 1
+        
         logging.info("please run run_flex.py manually!")
             
         
