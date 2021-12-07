@@ -243,7 +243,7 @@ if __name__ == "__main__":
             os.makedirs(os.path.join(input_path_root,each),exist_ok= True)
             for each_pdb in next_step:
                 if sub_dir[each] == "all":
-                    mut_posi = exhaust_pos(each_pdb[3],each_pdb[3])
+                    mut_posi = exhaust_pos(each_pdb[3],len(each_pdb[3]))
                 elif len(each_pdb[3]) >= sub_dir[each]:
                     mut_posi = exhaust_pos(each_pdb[3],sub_dir[each])
                     mut_posi = filter_pos(mut_posi)
